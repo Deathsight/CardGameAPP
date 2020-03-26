@@ -22,7 +22,7 @@ import * as ImageManipulator from "expo-image-manipulator";
 import Clarifai from "clarifai";
 
 const app = new Clarifai.App({
-  apiKey: "921405b7336b4d13944462b58e6684b7"
+  apiKey: "8b728659e024488ea3c0e3f2317d19ac"
 });
 process.nextTick = setImmediate;
 
