@@ -8,6 +8,8 @@ import HomeScreen from "../screens/HomeScreen";
 import LinksScreen from "../screens/LinksScreen";
 import BarCodeScreen from "../screens/BarCodeScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import FaceFilterScreen from "../screens/FaceFilterScreen";
+
 
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -74,7 +76,28 @@ BarCodeStack.navigationOptions = {
 };
 
 BarCodeStack.path = "";
+/////////////////////////////////////////////////////////
 
+const FaceFilterStack = createStackNavigator(
+  {
+    FaceFilter: FaceFilterScreen
+  },
+  config
+);
+
+FaceFilterStack.navigationOptions = {
+  tabBarLabel: "FaceFilter",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
+    />
+  )
+};
+
+FaceFilterStack.path = "";
+
+/////////////////////////////////////////////////////////
 const SettingsStack = createStackNavigator(
   {
     Settings: SettingsScreen
@@ -98,7 +121,8 @@ const tabNavigator = createBottomTabNavigator({
   HomeStack,
   LinksStack,
   BarCodeStack,
-  SettingsStack
+  SettingsStack,
+  FaceFilterStack
 });
 
 tabNavigator.path = "";
