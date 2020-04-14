@@ -97,8 +97,9 @@ const Mask = ({
       <View style = {{...eyeStyle(translatedRightEyePosition)}} />
       <View style = {{...pupilStyle(translatedRightEyePosition)}} />
       {/* Add nose component */}
-      <Text style={{...mouthStyle()}}>🎀</Text>
+      <Text style={{...mouthStyle()}}>🔥</Text>
       <Text style={{...noseStyle()}}>🖤</Text>
+
 
     </View>
   );

@@ -14,8 +14,6 @@ import * as FaceDetector from 'expo-face-detector';
 import { Camera } from "expo-camera";
 import Mask from './Mask/index2'
 
-
-
 export default function FaceFilterScreen() {
     const [hasCameraPermission, setHasCameraPermission] = useState(false);
     const [faces, setFaces] = useState([]);
