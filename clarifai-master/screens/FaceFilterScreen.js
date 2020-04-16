@@ -12,18 +12,28 @@ import {
 import * as Permissions from "expo-permissions";
 import * as FaceDetector from 'expo-face-detector';
 import { Camera } from "expo-camera";
-import Mask from './Mask/index2'
+import Mask from './Mask/index2';
+
+
+import firebase from "firebase/app";
+import "firebase/auth";
+import db from "../db.js";
 
 export default function FaceFilterScreen() {
     const [hasCameraPermission, setHasCameraPermission] = useState(false);
     const [faces, setFaces] = useState([]);
+    const [user, setUser] = useState(null);
     let facees = [];
 
-
     useEffect(() => {
+        getUser();
         askPermission();
-        //console.log('permission is: ',hasCameraPermission);
     }, []);
+
+    const getUser = async () =>{
+        let u = await db.collection('Users').doc(firebase.auth().currentUser.uid).get();
+        setUser(u.data());
+    }
 
     const askPermission = async () => {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -44,12 +54,10 @@ export default function FaceFilterScreen() {
     return (
     <View style={styles.flexCenterStyle}>
         {
-            hasCameraPermission?
+            hasCameraPermission && user?
             <>
                 <Camera
-                    ref={ref => {
-                        this.camera = ref;
-                    }}
+                    ref={ref => { this.camera = ref;}}
                     style={{ flex:1,width:400,height:300 }}
                     type={Camera.Constants.Type.front}
                     onFacesDetected={onFacesDetected}
@@ -63,8 +71,8 @@ export default function FaceFilterScreen() {
                       }}
                 />
                     {
-                        console.log('inside return',faces),
-                        faces.map(face => (<Mask key={face.faceID} face={face} />))
+                        //console.log('inside return',faces),
+                        faces.map(face => (<Mask key={face.faceID} user={user} face={face} />))
                     }
                 </>
             :

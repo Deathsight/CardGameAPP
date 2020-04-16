@@ -184,14 +184,14 @@ SettingsStack.navigationOptions = {
 SettingsStack.path = "";
 
 const tabNavigator = createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  BarCodeStack,
-  SettingsStack,
+  // HomeStack,
+  // LinksStack,
+  // BarCodeStack,
+  // SettingsStack,
   FaceFilterStack,
-  ArTestingStack,
-  SpeechTestStack,
-  VoiceTestingStack
+  // ArTestingStack,
+  // SpeechTestStack,
+  // VoiceTestingStack
 });
 
 tabNavigator.path = "";
