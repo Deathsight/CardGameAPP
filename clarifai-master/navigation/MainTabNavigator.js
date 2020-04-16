@@ -8,6 +8,12 @@ import HomeScreen from "../screens/HomeScreen";
 import LinksScreen from "../screens/LinksScreen";
 import BarCodeScreen from "../screens/BarCodeScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import FaceFilterScreen from "../screens/FaceFilterScreen";
+import ArTesting from "../screens/ArTesting";
+import VoiceTesting from "../screens/VoiceTesting";
+import SpeechTest from "../screens/SpeechTest";
+
+
 
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -74,7 +80,90 @@ BarCodeStack.navigationOptions = {
 };
 
 BarCodeStack.path = "";
+/////////////////////////////////////////////////////////
 
+const VoiceTestingStack = createStackNavigator(
+  {
+    VoiceTesting: VoiceTesting
+  },
+  config
+);
+
+VoiceTestingStack.navigationOptions = {
+  tabBarLabel: "VoiceTesting",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
+    />
+  )
+};
+
+VoiceTestingStack.path = "";
+
+/////////////////////////////////////////////////////////
+
+const ArTestingStack = createStackNavigator(
+  {
+    ArTesting: ArTesting
+  },
+  config
+);
+
+ArTestingStack.navigationOptions = {
+  tabBarLabel: "ArTesting",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
+    />
+  )
+};
+
+ArTestingStack.path = "";
+
+/////////////////////////////////////////////////////////
+
+const SpeechTestStack = createStackNavigator(
+  {
+    SpeechTest: SpeechTest
+  },
+  config
+);
+
+SpeechTestStack.navigationOptions = {
+  tabBarLabel: "SpeechTest",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
+    />
+  )
+};
+
+SpeechTestStack.path = "";
+/////////////////////////////////////////////////////////
+
+const FaceFilterStack = createStackNavigator(
+  {
+    FaceFilter: FaceFilterScreen
+  },
+  config
+);
+
+FaceFilterStack.navigationOptions = {
+  tabBarLabel: "FaceFilter",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
+    />
+  )
+};
+
+FaceFilterStack.path = "";
+
+/////////////////////////////////////////////////////////
 const SettingsStack = createStackNavigator(
   {
     Settings: SettingsScreen
@@ -95,10 +184,14 @@ SettingsStack.navigationOptions = {
 SettingsStack.path = "";
 
 const tabNavigator = createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  BarCodeStack,
-  SettingsStack
+  // HomeStack,
+  // LinksStack,
+  // BarCodeStack,
+  // SettingsStack,
+  FaceFilterStack,
+  // ArTestingStack,
+  // SpeechTestStack,
+  // VoiceTestingStack
 });
 
 tabNavigator.path = "";
