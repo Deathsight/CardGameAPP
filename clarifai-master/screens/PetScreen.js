@@ -22,6 +22,7 @@ import { View as GraphicsView } from "expo-graphics";
 import { StyleSheet } from "react-native";
 import { Camera } from "expo-camera";
 import Graphic from './Graphic'
+import { DiscreteInterpolant } from "three";
 export default function PetScreen() {
   const [move,setMove] =useState(-0.5);
   const [attack, setAttack] = useState(false)
@@ -30,6 +31,7 @@ export default function PetScreen() {
   const [yourHealth, setYourHealth] = useState(200)
   const [allowed,setAllowed] = useState(false)
   const [hero,setHero] = useState(null)
+  const [monsterList, setMonsterList] = useState([]);
 
   useEffect(()=>{
     if(enemyHealth < 0 || yourHealth < 0 ){
@@ -50,6 +52,9 @@ export default function PetScreen() {
     
   },[attack,enemyAttackTurn])
 
+  useEffect(()=>{
+    getMonsterList()
+  },[])
   const attacks  = () =>{
     setAttack(true)
     const timer = setTimeout(() => {
@@ -100,6 +105,18 @@ export default function PetScreen() {
       db.collection('Users').doc(firebase.auth().currentUser.uid).update({wins:temp.wins +1})
     }
   }
+  const getMonsterList = async () => {
+    db.collection("Users").onSnapshot(querySnapshot => {
+      let mahmoudZg = []
+      querySnapshot.forEach( doc =>{
+        if(doc.id === firebase.auth().currentUser.uid){
+          mahmoudZg.push([...doc.data().monsters])
+        }
+      })
+      console.log("mahmoudZg: ",mahmoudZg)
+      setMonsterList(mahmoudZg[0])
+    })
+  }
   return(
     allowed ? 
       <View style={{ flex: 1}}>
@@ -115,11 +132,15 @@ export default function PetScreen() {
       :
       <View style={{ flex: 1}}>
         <View>
-          <Text style={{fontSize: '30', fontStyle: 'bold'}}>Select your hero</Text>
-          <Button title="Spider Man" onPress={() =>selectCharacter("spiderMan")}/>
-          <Button title="Donald Trump" onPress={() =>selectCharacter("trump")}/>
-          <Button title="Sonic" onPress={() =>selectCharacter("sonic")}/>
-          <Button title="Spongy Boby" onPress={() =>selectCharacter("Boby")}/>
+          <Text style={{fontSize: 30, fontStyle: 'normal'}}>Select your hero</Text>
+          {monsterList ?
+              <View>
+                
+                {monsterList.length > 0 ? monsterList.map((n,i) =>
+                <Button key={i}title={""+n.name} onPress={() =>selectCharacter(n.k)}/>
+                ): <Text>No monsters added yet..</Text>}
+              </View>
+          :null}
         </View>
       </View>
     
@@ -140,3 +161,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   }
 });
+
+
+{/* <Button title="Spider Man" onPress={() =>selectCharacter("spiderMan")}/>
+          <Button title="Donald Trump" onPress={() =>selectCharacter("trump")}/>
+          <Button title="Sonic" onPress={() =>selectCharacter("sonic")}/>
+          <Button title="Spongy Boby" onPress={() =>selectCharacter("Boby")}/> */}
