@@ -41,7 +41,7 @@ export default function FaceFilterScreen() {
 
     const updateDb = async () =>{
         if(avatar ===''){
-             await db.collection('Users').doc(firebase.auth().currentUser.uid).update(avatar);
+             await db.collection('Users').doc(firebase.auth().currentUser.uid).update({avatar});
         }
     }
 
