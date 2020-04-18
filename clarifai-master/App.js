@@ -1,7 +1,7 @@
- // bugfix for firebase 7.11.0
- import { decode, encode } from 'base-64'
- global.btoa = global.btoa || encode;
- global.atob = global.atob || decode;
+// bugfix for firebase 7.11.0
+import { decode, encode } from "base-64";
+global.btoa = global.btoa || encode;
+global.atob = global.atob || decode;
 
 import { AppLoading } from "expo";
 import { Asset } from "expo-asset";
@@ -14,7 +14,7 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Button
+  Button,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -38,66 +38,62 @@ export default function App(props) {
   const [FACES, setFACES] = useState(false); // model
   const [numInputs, setNumInputs] = useState(0); // counting new inputs
   const [uploadInProgress, setUploadInProgress] = useState(false);
-  
+
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   const [allowedIn, setAllowedIn] = useState(false);
   Auth.init(setAllowedIn);
-  const [id,setId] = useState('');
+  const [id, setId] = useState("");
 
   let ref = null;
 
-
-  
-const app = new Clarifai.App({
-  apiKey: "695d30ba91ae4b68a6abf2ce1a7f3817"
-});
-process.nextTick = setImmediate;
-
-
-const resize = async uri => {
-  let manipulatedImage = await ImageManipulator.manipulateAsync(
-    uri,
-    [{ resize: { height: 300, width: 300 } }],
-    { base64: true }
-  );
-  return manipulatedImage.base64;
-};
-
-
-
-const makeInput = async base64 => {
-  // create new array based on inputs to use below
-  console.log('this is id',id);
-  const response = await app.inputs.create({
-    base64,
-    concepts: [{ id: id }]
+  const app = new Clarifai.App({
+    apiKey: "695d30ba91ae4b68a6abf2ce1a7f3817",
   });
-  //console.log("response", response);
-  return response;
-};
+  process.nextTick = setImmediate;
 
-const makeModel = async () => {
-  console.log('this is id',id);
+  const resize = async (uri) => {
+    let manipulatedImage = await ImageManipulator.manipulateAsync(
+      uri,
+      [{ resize: { height: 300, width: 300 } }],
+      { base64: true }
+    );
+    return manipulatedImage.base64;
+  };
 
-  db.collection('Users').doc(firebase.auth().currentUser.uid).set({name:id,kills:0,wins:0,monsters:0,avatar:""});
+  const makeInput = async (base64) => {
+    // create new array based on inputs to use below
+    console.log("this is id", id);
+    const response = await app.inputs.create({
+      base64,
+      concepts: [{ id: id }],
+    });
+    //console.log("response", response);
+    return response;
+  };
 
-  const response = await app.models.create("faces2", [{ id: id }]);
-  //console.log("model response", response);
-  return response;
-};
+  const makeModel = async () => {
+    console.log("this is id", id);
 
-const trainModel = async () => {
-  const response = await app.models.train("faces2");
-  //console.log("train result", response);
-  return response;
-};
+    db.collection("Users")
+      .doc(firebase.auth().currentUser.uid)
+      .set({ name: id, kills: 0, wins: 0, monsters: 0, avatar: "" });
 
-const predictModel = async base64 => {
-  const response = await app.models.predict({ id: "faces2" }, { base64 });
-  //console.log("predict result", response);
-  return response;
-};
+    const response = await app.models.create("faces3", [{ id: id }]);
+    //console.log("model response", response);
+    return response;
+  };
 
+  const trainModel = async () => {
+    const response = await app.models.train("faces3");
+    //console.log("train result", response);
+    return response;
+  };
+
+  const predictModel = async (base64) => {
+    const response = await app.models.predict({ id: "faces3" }, { base64 });
+    //console.log("predict result", response);
+    return response;
+  };
 
   const [hasCameraPermission, setHasCameraPermission] = useState(false);
   const askPermission = async () => {
@@ -111,7 +107,7 @@ const predictModel = async base64 => {
 
   const findModel = async () => {
     try {
-      setFACES(await app.models.get("faces2"));
+      setFACES(await app.models.get("faces3"));
     } catch (error) {
       setFACES(null);
       //console.log("faces no model", error);
@@ -138,7 +134,7 @@ const predictModel = async base64 => {
 
       // use predict, check value field of result for high number
       // then set isAllowed or not
-      if (result > 0.9) {
+      if (result > 0.75) {
         //console.log(FACES);
         setAllowedIn(true);
       }
@@ -160,51 +156,51 @@ const predictModel = async base64 => {
     }
     setUploadInProgress(false);
   };
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const capturePhoto = async () => {
     const photo = await this.camera.takePictureAsync();
     console.log("uri of photo capture", photo.uri);
     return photo.uri;
   };
 
-  const handleLogin = async () =>{
+  const handleLogin = async () => {
     let email = `${name}@${name}.com`;
     let password = name;
 
     await firebase.auth().signInWithEmailAndPassword(email, password);
 
-    let temp = await db.collection('Users').doc(firebase.auth().currentUser.uid).get();
+    let temp = await db
+      .collection("Users")
+      .doc(firebase.auth().currentUser.uid)
+      .get();
     console.log(temp.data().name);
-    if(temp){
-      if(temp.data().name != name){
-      alert('you dont have a user in the database');
-    }else{
-      setId(temp.data());
-      findModel();
-    }
-    }
-    
-  }
-
-  const handleSubmit = async () =>{
-      let email = `${name}@${name}.com`;
-      let password = name;
-      try{
-        await firebase.auth().createUserWithEmailAndPassword(email, password);
-        const response = await fetch(
-          `https://us-central1-parkingcp3445.cloudfunctions.net/initUser?uid=${
-          firebase.auth().currentUser.uid
-          }`
-        );
-        setId(name);
-      }catch{
-        alert('this name is taken');
+    if (temp) {
+      if (temp.data().name != name) {
+        alert("you dont have a user in the database");
+      } else {
+        setId(temp.data());
+        findModel();
       }
-  }
+    }
+  };
 
-  const handleNewUser =() =>{
+  const handleSubmit = async () => {
+    let email = `${name}@${name}.com`;
+    let password = name;
+    console.log(email);
+
+    await firebase.auth().createUserWithEmailAndPassword(email, password);
+    const response = await fetch(
+      `https://us-central1-parkingcp3445.cloudfunctions.net/initUser?uid=${
+        firebase.auth().currentUser.uid
+      }`
+    );
+    setId(name);
+  };
+
+  const handleNewUser = () => {
     setFACES(null);
-  }
+  };
 
   if (FACES === false || (!isLoadingComplete && !props.skipLoadingScreen)) {
     return (
@@ -219,65 +215,72 @@ const predictModel = async base64 => {
     // -- keep track of how many, after 10?, do train, etc.
     return (
       <View style={{ flex: 1 }}>
-        {id != ''? 
-                <Camera
-                ref={ref => {
-                  this.camera = ref;
+        {id != "" ? (
+          <Camera
+            ref={(ref) => {
+              this.camera = ref;
+            }}
+            style={{ flex: 1 }}
+            type={Camera.Constants.Type.front}
+          >
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: "transparent",
+                flexDirection: "row",
+              }}
+            >
+              <TouchableOpacity
+                disabled={uploadInProgress}
+                style={{
+                  flex: 1,
+                  alignSelf: "flex-end",
+                  alignItems: "center",
                 }}
-                style={{ flex: 1 }}
-                type={Camera.Constants.Type.front}
+                onPress={handleFacesDetected}
               >
-                <View
-                  style={{
-                    flex: 1,
-                    backgroundColor: "transparent",
-                    flexDirection: "row"
-                  }}
+                <Text
+                  style={{ fontSize: 18, marginBottom: 10, color: "white" }}
                 >
-                  <TouchableOpacity
-                    disabled={uploadInProgress}
-                    style={{
-                      flex: 1,
-                      alignSelf: "flex-end",
-                      alignItems: "center"
-                    }}
-                    onPress={handleFacesDetected}
-                  >
-                    <Text style={{ fontSize: 18, marginBottom: 10, color: "white" }}>
-                      
-                      {FACES?  `Recognize me` : `Take photo ${numInputs + 1}`}
-                     
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    disabled={uploadInProgress}
-                    style={{
-                      flex: 1,
-                      alignSelf: "flex-end",
-                      alignItems: "center"
-                    }}
-                    onPress={handleNewUser}
-                  >
-                    <Text style={{ fontSize: 18, marginBottom: 10, color: "white" }}>
-                      
-                      {FACES?  `New User?` :null}
-                     
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </Camera>
-                :  
-                <>
-                    <TextInput
-                    style={{ height: 40, borderColor: "gray", borderWidth: 1,flex:1 }}
-                    onChangeText={setName}
-                    placeholder="What is your Name"
-                    value={name}
-                    />
-                    <Button title="Register" type="outline" onPress={handleSubmit} />
-                    <Button title="Login" type="outline" onPress={handleLogin} />
-                  </>}
-        
+                  {FACES || numInputs >= 10
+                    ? "Recognize me"
+                    : `Take photo ${numInputs + 1}`}{" "}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                disabled={uploadInProgress}
+                style={{
+                  flex: 1,
+                  alignSelf: "flex-end",
+                  alignItems: "center",
+                }}
+                onPress={handleNewUser}
+              >
+                <Text
+                  style={{ fontSize: 18, marginBottom: 10, color: "white" }}
+                >
+                  {FACES ? `New User?` : null}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </Camera>
+        ) : (
+          <>
+            <TextInput
+              style={{
+                height: 40,
+                borderColor: "gray",
+                borderWidth: 1,
+                flex: 1,
+              }}
+              onChangeText={setName}
+              placeholder="What is your Name"
+              value={name}
+            />
+            <Button title="Register" type="outline" onPress={handleSubmit} />
+            <Button title="Login" type="outline" onPress={handleLogin} />
+          </>
+        )}
       </View>
     );
   } else {
@@ -294,15 +297,15 @@ async function loadResourcesAsync() {
   await Promise.all([
     Asset.loadAsync([
       require("./assets/images/robot-dev.png"),
-      require("./assets/images/robot-prod.png")
+      require("./assets/images/robot-prod.png"),
     ]),
     Font.loadAsync({
       // This is the font that we are using for our tab bar
       ...Ionicons.font,
       // We include SpaceMono because we use it in HomeScreen.js. Feel free to
       // remove this if you are not using it in your app
-      "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf")
-    })
+      "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
+    }),
   ]);
 }
 
@@ -319,6 +322,6 @@ function handleFinishLoading(setLoadingComplete) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
-  }
+    backgroundColor: "#fff",
+  },
 });
