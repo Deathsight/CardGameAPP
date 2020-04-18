@@ -29,7 +29,7 @@ export default function BarCodeScreen() {
     if (supported) { 
       await Linking.openURL(data);
     } else {
-      let temp = fetchMonster(data)
+      let temp = await fetchMonster(data)
       if(temp){
         collectMonster(temp)
       } else {
@@ -43,17 +43,20 @@ export default function BarCodeScreen() {
   };
 
   const collectMonster = async (obj) => {
+    console.log("me: ",obj)
     let temp = null;
-    const response = await db.collection("users").doc(firebase.auth().currentUser.uid).get()
-    temp = response
-    if(!response.monsters.includes(obj)){
+    const response = await db.collection("Users").doc(firebase.auth().currentUser.uid).get()
+    temp = response.data()
+    console.log("temp",temp.monsters)
+    
+    if(!temp.monsters.includes(obj)){
+      temp.monsters.push(obj)
       alert(`
         Monster Was detected! i'ts being added to your collection!!!!
         Monster Found: ${obj.name}
       `);
-      console.log(temp.monsters.push(obj))
-      db.collection("users").doc(firebase.auth().currentUser.uid).update({
-        monsters:temp.monsters.push(obj)
+      db.collection("Users").doc(firebase.auth().currentUser.uid).update({
+        monsters:temp.monsters
       })
     } else {
       alert('You Already claimed this monster')

@@ -40,7 +40,7 @@ export default function App(props) {
   const [uploadInProgress, setUploadInProgress] = useState(false);
 
   const [isLoadingComplete, setLoadingComplete] = useState(false);
-  const [allowedIn, setAllowedIn] = useState(true);
+  const [allowedIn, setAllowedIn] = useState(false);
   Auth.init(setAllowedIn);
   const [id, setId] = useState("");
 

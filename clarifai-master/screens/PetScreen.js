@@ -94,10 +94,10 @@ export default function PetScreen() {
     setYourHealth(200)
   }
   const updateWins = async () => {
-    const info = await db.collection('users').doc(firebase.auth().currentUser.uid).get()
+    const info = await db.collection('Users').doc(firebase.auth().currentUser.uid).get()
     let temp = info.data()
     if(temp){
-      db.collection('users').doc(firebase.auth().currentUser.uid).update({wins:temp.wins +1})
+      db.collection('Users').doc(firebase.auth().currentUser.uid).update({wins:temp.wins +1})
     }
   }
   return(
