@@ -9,10 +9,9 @@ import LinksScreen from "../screens/LinksScreen";
 import BarCodeScreen from "../screens/BarCodeScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import FaceFilterScreen from "../screens/FaceFilterScreen";
-import ArTesting from "../screens/ArTesting";
 import VoiceTesting from "../screens/VoiceTesting";
 import SpeechTest from "../screens/SpeechTest";
-import PetScreen from "../screens/PetScreen";
+
 
 
 
@@ -22,148 +21,148 @@ const config = Platform.select({
   default: {}
 });
 
-const HomeStack = createStackNavigator(
-  {
-    Home: HomeScreen
-  },
-  config
-);
+// const HomeStack = createStackNavigator(
+//   {
+//     Home: HomeScreen
+//   },
+//   config
+// );
 
-HomeStack.navigationOptions = {
-  tabBarLabel: "Home",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === "ios"
-          ? `ios-information-circle${focused ? "" : "-outline"}`
-          : "md-information-circle"
-      }
-    />
-  )
-};
+// HomeStack.navigationOptions = {
+//   tabBarLabel: "Home",
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={
+//         Platform.OS === "ios"
+//           ? `ios-information-circle${focused ? "" : "-outline"}`
+//           : "md-information-circle"
+//       }
+//     />
+//   )
+// };
 
-HomeStack.path = "";
+// HomeStack.path = "";
 
-const LinksStack = createStackNavigator(
-  {
-    Links: LinksScreen
-  },
-  config
-);
+// const LinksStack = createStackNavigator(
+//   {
+//     Links: LinksScreen
+//   },
+//   config
+// );
 
-LinksStack.navigationOptions = {
-  tabBarLabel: "Links",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
-    />
-  )
-};
+// LinksStack.navigationOptions = {
+//   tabBarLabel: "Links",
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={Platform.OS === "ios" ? "ios-link" : "md-link"}
+//     />
+//   )
+// };
 
-LinksStack.path = "";
+// LinksStack.path = "";
 
-const BarCodeStack = createStackNavigator(
-  {
-    BarCode: BarCodeScreen
-  },
-  config
-);
+// const BarCodeStack = createStackNavigator(
+//   {
+//     BarCode: BarCodeScreen
+//   },
+//   config
+// );
 
-BarCodeStack.navigationOptions = {
-  tabBarLabel: "BarCode",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
-    />
-  )
-};
+// BarCodeStack.navigationOptions = {
+//   tabBarLabel: "BarCode",
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={Platform.OS === "ios" ? "ios-link" : "md-link"}
+//     />
+//   )
+// };
 
-BarCodeStack.path = "";
-/////////////////////////////////////////////////////////
-const PetStack = createStackNavigator(
-  {
-    PetScreen: PetScreen
-  },
-  config
-);
+// BarCodeStack.path = "";
+// /////////////////////////////////////////////////////////
+// const PetStack = createStackNavigator(
+//   {
+//     PetScreen: PetScreen
+//   },
+//   config
+// );
 
-PetStack.navigationOptions = {
-  tabBarLabel: "Pet",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
-    />
-  )
-};
+// PetStack.navigationOptions = {
+//   tabBarLabel: "Pet",
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={Platform.OS === "ios" ? "ios-link" : "md-link"}
+//     />
+//   )
+// };
 
-PetStack.path = "";
+// PetStack.path = "";
 
-/////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////
 
-const VoiceTestingStack = createStackNavigator(
-  {
-    VoiceTesting: VoiceTesting
-  },
-  config
-);
+// const VoiceTestingStack = createStackNavigator(
+//   {
+//     VoiceTesting: VoiceTesting
+//   },
+//   config
+// );
 
-VoiceTestingStack.navigationOptions = {
-  tabBarLabel: "VoiceTesting",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
-    />
-  )
-};
+// VoiceTestingStack.navigationOptions = {
+//   tabBarLabel: "VoiceTesting",
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={Platform.OS === "ios" ? "ios-link" : "md-link"}
+//     />
+//   )
+// };
 
-VoiceTestingStack.path = "";
+// VoiceTestingStack.path = "";
 
-/////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////
 
-const ArTestingStack = createStackNavigator(
-  {
-    ArTesting: ArTesting
-  },
-  config
-);
+// const ArTestingStack = createStackNavigator(
+//   {
+//     ArTesting: ArTesting
+//   },
+//   config
+// );
 
-ArTestingStack.navigationOptions = {
-  tabBarLabel: "ArTesting",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
-    />
-  )
-};
+// ArTestingStack.navigationOptions = {
+//   tabBarLabel: "ArTesting",
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={Platform.OS === "ios" ? "ios-link" : "md-link"}
+//     />
+//   )
+// };
 
-ArTestingStack.path = "";
+// ArTestingStack.path = "";
 
-/////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////
 
-const SpeechTestStack = createStackNavigator(
-  {
-    SpeechTest: SpeechTest
-  },
-  config
-);
+// const SpeechTestStack = createStackNavigator(
+//   {
+//     SpeechTest: SpeechTest
+//   },
+//   config
+// );
 
-SpeechTestStack.navigationOptions = {
-  tabBarLabel: "SpeechTest",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
-    />
-  )
-};
+// SpeechTestStack.navigationOptions = {
+//   tabBarLabel: "SpeechTest",
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={Platform.OS === "ios" ? "ios-link" : "md-link"}
+//     />
+//   )
+// };
 
-SpeechTestStack.path = "";
+// SpeechTestStack.path = "";
 /////////////////////////////////////////////////////////
 
 const FaceFilterStack = createStackNavigator(
@@ -186,24 +185,24 @@ FaceFilterStack.navigationOptions = {
 FaceFilterStack.path = "";
 
 /////////////////////////////////////////////////////////
-const SettingsStack = createStackNavigator(
-  {
-    Settings: SettingsScreen
-  },
-  config
-);
+// const SettingsStack = createStackNavigator(
+//   {
+//     Settings: SettingsScreen
+//   },
+//   config
+// );
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: "Settings",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === "ios" ? "ios-options" : "md-options"}
-    />
-  )
-};
+// SettingsStack.navigationOptions = {
+//   tabBarLabel: "Settings",
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={Platform.OS === "ios" ? "ios-options" : "md-options"}
+//     />
+//   )
+// };
 
-SettingsStack.path = "";
+// SettingsStack.path = "";
 
 const tabNavigator = createBottomTabNavigator({
   // HomeStack,

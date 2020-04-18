@@ -18,7 +18,7 @@ getUser();
 
 console.log('props',user);
 
-const Mask = ({
+const MaskSpades = ({
   user:{
     name,
     kills,
@@ -189,4 +189,4 @@ const Mask = ({
   );
 };
 
-export default Mask
+export default MaskSpades

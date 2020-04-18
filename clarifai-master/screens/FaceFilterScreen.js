@@ -40,7 +40,9 @@ export default function FaceFilterScreen() {
     }, [avatar]);
 
     const updateDb = async () =>{
-        await db.collection('Users').doc(firebase.auth().currentUser.uid).update(avatar);
+        if(avatar ===''){
+             await db.collection('Users').doc(firebase.auth().currentUser.uid).update(avatar);
+        }
     }
 
     const getUser = async () =>{

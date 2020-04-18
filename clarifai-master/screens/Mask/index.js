@@ -18,7 +18,7 @@ getUser();
 
 console.log('props',user);
 
-const Stats = ({
+const MaskHearts = ({
   user:{
     name,
     kills,
@@ -193,4 +193,4 @@ const Stats = ({
   );
 };
 
-export default Stats
+export default MaskHearts

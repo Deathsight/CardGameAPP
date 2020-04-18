@@ -189,17 +189,15 @@ const predictModel = async base64 => {
   const handleSubmit = async () =>{
       let email = `${name}@${name}.com`;
       let password = name;
-      try{
-        await firebase.auth().createUserWithEmailAndPassword(email, password);
-        const response = await fetch(
-          `https://us-central1-parkingcp3445.cloudfunctions.net/initUser?uid=${
-          firebase.auth().currentUser.uid
-          }`
-        );
-        setId(name);
-      }catch{
-        alert('this name is taken');
-      }
+
+      await firebase.auth().createUserWithEmailAndPassword(email, password);
+      const response = await fetch(
+        `https://us-central1-parkingcp3445.cloudfunctions.net/initUser?uid=${
+        firebase.auth().currentUser.uid
+        }`
+      );
+      setId(name);
+ 
   }
 
   const handleNewUser =() =>{
@@ -245,7 +243,7 @@ const predictModel = async base64 => {
                   >
                     <Text style={{ fontSize: 18, marginBottom: 10, color: "white" }}>
                       
-                      {FACES?  `Recognize me` : `Take photo ${numInputs + 1}`}
+                      {FACES ||numInputs >= 10 ?  `Recognize me` : `Take photo ${numInputs + 1}`}
                      
                     </Text>
                   </TouchableOpacity>
