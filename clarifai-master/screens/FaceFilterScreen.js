@@ -12,7 +12,8 @@ import {
 import * as Permissions from "expo-permissions";
 import * as FaceDetector from 'expo-face-detector';
 import { Camera } from "expo-camera";
-import Mask from './Mask/index2';
+import MaskSpades from './Mask/index2';
+import MaskHearts from './Mask/index';
 
 
 import firebase from "firebase/app";
@@ -23,12 +24,24 @@ export default function FaceFilterScreen() {
     const [hasCameraPermission, setHasCameraPermission] = useState(false);
     const [faces, setFaces] = useState([]);
     const [user, setUser] = useState(null);
+    const [avatar, setAvatar] = useState('');
+    const [avatars, setAvatars] = useState(['spadeEyez','heartEyez']);
+
+
     let facees = [];
 
     useEffect(() => {
         getUser();
         askPermission();
     }, []);
+
+    useEffect(() => {
+        updateDb();
+    }, [avatar]);
+
+    const updateDb = async () =>{
+        await db.collection('Users').doc(firebase.auth().currentUser.uid).update(avatar);
+    }
 
     const getUser = async () =>{
         let u = await db.collection('Users').doc(firebase.auth().currentUser.uid).get();
@@ -71,8 +84,20 @@ export default function FaceFilterScreen() {
                       }}
                 />
                     {
-                        //console.log('inside return',faces),
-                        faces.map(face => (<Mask key={face.faceID} user={user} face={face} />))
+                        user.avatar === 'spadeEyez'?
+                        faces.map(face => (<MaskSpades key={face.faceID} user={user} face={face} />))
+                        :
+                        user.avatar === 'heartEyez'?
+                        faces.map(face => (<MaskHearts key={face.faceID} user={user} face={face} />))
+                        :user.avatar === ''?
+                    <><Text>Choose an avatar</Text>{avatars.map((a,i) => 
+                        (
+                        <>
+                            <TouchableOpacity onPress={() => setAvatar(a)}><Text>{a}</Text></TouchableOpacity>
+                        </>
+                        ))}</>
+                        :
+                        null
                     }
                 </>
             :

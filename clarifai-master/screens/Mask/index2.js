@@ -176,11 +176,10 @@ const Mask = ({
   return (
     user &&
     <View style={{ position: 'absolute', left: containerX, top: containerY }}>
-      <Text style = {{...eyeStyle(translatedLeftEyePosition)}} >♠️</Text>
+      <Text style = {{...eyeStyle(translatedLeftEyePosition)}} >♥️</Text>
       {/* <View style = {{...pupilStyle(translatedLeftEyePosition)}} /> */}
-      <Text style = {{...eyeStyle(translatedRightEyePosition)}} >♠️</Text>
+      <Text style = {{...eyeStyle(translatedRightEyePosition)}} >♥️</Text>
       {/* Add nose component */}
-      <Text style={{...mouthStyle()}}>🔥</Text>
       <Text style={{...noseStyle()}}>🖤</Text>
       <Text style={{...nameStyle()}}>{name}</Text>
       <Text style={{...killsStyle()}}>Kills: {kills}</Text>
