@@ -211,7 +211,7 @@ const tabNavigator = createBottomTabNavigator({
   FaceFilterStack,
 
   //ArTestingStack,
-  // SpeechTestStack,
+  SpeechTestStack,
   // VoiceTestingStack
 });
 
