@@ -9,22 +9,19 @@ import LinksScreen from "../screens/LinksScreen";
 import BarCodeScreen from "../screens/BarCodeScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import FaceFilterScreen from "../screens/FaceFilterScreen";
-import ArTesting from "../screens/ArTesting";
+//import ArTesting from "../screens/ArTesting";
 import VoiceTesting from "../screens/VoiceTesting";
 import SpeechTest from "../screens/SpeechTest";
 import PetScreen from "../screens/PetScreen";
 
-
-
-
 const config = Platform.select({
   web: { headerMode: "screen" },
-  default: {}
+  default: {},
 });
 
 const HomeStack = createStackNavigator(
   {
-    Home: HomeScreen
+    Home: HomeScreen,
   },
   config
 );
@@ -40,14 +37,14 @@ HomeStack.navigationOptions = {
           : "md-information-circle"
       }
     />
-  )
+  ),
 };
 
 HomeStack.path = "";
 
 const LinksStack = createStackNavigator(
   {
-    Links: LinksScreen
+    Links: LinksScreen,
   },
   config
 );
@@ -59,14 +56,14 @@ LinksStack.navigationOptions = {
       focused={focused}
       name={Platform.OS === "ios" ? "ios-link" : "md-link"}
     />
-  )
+  ),
 };
 
 LinksStack.path = "";
 
 const BarCodeStack = createStackNavigator(
   {
-    BarCode: BarCodeScreen
+    BarCode: BarCodeScreen,
   },
   config
 );
@@ -78,14 +75,14 @@ BarCodeStack.navigationOptions = {
       focused={focused}
       name={Platform.OS === "ios" ? "ios-link" : "md-link"}
     />
-  )
+  ),
 };
 
 BarCodeStack.path = "";
 /////////////////////////////////////////////////////////
 const PetStack = createStackNavigator(
   {
-    PetScreen: PetScreen
+    PetScreen: PetScreen,
   },
   config
 );
@@ -97,7 +94,7 @@ PetStack.navigationOptions = {
       focused={focused}
       name={Platform.OS === "ios" ? "ios-link" : "md-link"}
     />
-  )
+  ),
 };
 
 PetStack.path = "";
@@ -106,7 +103,7 @@ PetStack.path = "";
 
 const VoiceTestingStack = createStackNavigator(
   {
-    VoiceTesting: VoiceTesting
+    VoiceTesting: VoiceTesting,
   },
   config
 );
@@ -118,16 +115,16 @@ VoiceTestingStack.navigationOptions = {
       focused={focused}
       name={Platform.OS === "ios" ? "ios-link" : "md-link"}
     />
-  )
+  ),
 };
 
 VoiceTestingStack.path = "";
 
 /////////////////////////////////////////////////////////
 
-const ArTestingStack = createStackNavigator(
+/*const ArTestingStack = createStackNavigator(
   {
-    ArTesting: ArTesting
+    ArTesting: ArTesting,
   },
   config
 );
@@ -139,16 +136,16 @@ ArTestingStack.navigationOptions = {
       focused={focused}
       name={Platform.OS === "ios" ? "ios-link" : "md-link"}
     />
-  )
+  ),
 };
 
-ArTestingStack.path = "";
+ArTestingStack.path = "";*/
 
 /////////////////////////////////////////////////////////
 
 const SpeechTestStack = createStackNavigator(
   {
-    SpeechTest: SpeechTest
+    SpeechTest: SpeechTest,
   },
   config
 );
@@ -160,7 +157,7 @@ SpeechTestStack.navigationOptions = {
       focused={focused}
       name={Platform.OS === "ios" ? "ios-link" : "md-link"}
     />
-  )
+  ),
 };
 
 SpeechTestStack.path = "";
@@ -168,7 +165,7 @@ SpeechTestStack.path = "";
 
 const FaceFilterStack = createStackNavigator(
   {
-    FaceFilter: FaceFilterScreen
+    FaceFilter: FaceFilterScreen,
   },
   config
 );
@@ -180,7 +177,7 @@ FaceFilterStack.navigationOptions = {
       focused={focused}
       name={Platform.OS === "ios" ? "ios-link" : "md-link"}
     />
-  )
+  ),
 };
 
 FaceFilterStack.path = "";
@@ -188,7 +185,7 @@ FaceFilterStack.path = "";
 /////////////////////////////////////////////////////////
 const SettingsStack = createStackNavigator(
   {
-    Settings: SettingsScreen
+    Settings: SettingsScreen,
   },
   config
 );
@@ -200,7 +197,7 @@ SettingsStack.navigationOptions = {
       focused={focused}
       name={Platform.OS === "ios" ? "ios-options" : "md-options"}
     />
-  )
+  ),
 };
 
 SettingsStack.path = "";
@@ -208,13 +205,13 @@ SettingsStack.path = "";
 const tabNavigator = createBottomTabNavigator({
   // HomeStack,
   // LinksStack,
-  // BarCodeStack,
+  BarCodeStack,
   // SettingsStack,
-  //PetStack,
+  PetStack,
   FaceFilterStack,
 
   //ArTestingStack,
-  // SpeechTestStack,
+  SpeechTestStack,
   // VoiceTestingStack
 });
 

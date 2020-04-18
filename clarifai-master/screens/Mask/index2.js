@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 // Import Text component
 import { Text, View } from 'react-native';
@@ -8,7 +8,6 @@ import "firebase/auth";
 import db from "../../db.js";
 
 let user = null;
-
 const getUser = async () =>{
   let u = await db.collection('Users').doc(firebase.auth().currentUser.uid).get();
   console.log(u.data());
@@ -18,7 +17,7 @@ getUser();
 
 console.log('props',user);
 
-const Mask = ({
+const MaskSpades = ({
   user:{
     name,
     kills,
@@ -56,28 +55,23 @@ const Mask = ({
     y: translatedEyePositionY(rightEyePosition)
   }
 
+  const eyeTransformAngle = (
+    angleRad = Math.atan(
+      (rightEyePosition.y - leftEyePosition.y) /
+      (rightEyePosition.x - leftEyePosition.x)
+    )
+  ) => angleRad * 180 / Math.PI
+
   const eyeStyle = (eyePosition, eyeBorderWidth = eyeWidth / 10) => ({
+    fontSize: eyeWidth,
     position: 'absolute',
     left: eyePosition.x,
     top: eyePosition.y,
-    borderRadius: eyeWidth,
-    width: eyeWidth,
-    height: eyeWidth,
-    borderWidth: eyeBorderWidth,
-    borderColor: 'black',
-    backgroundColor:'pink'
+    transform: [{ rotate: `${eyeTransformAngle()}deg`}]
   });
 
   const adjustedPupilPosition = coord => coord + eyeWidth / 2 - pupilWidth / 2
-  const pupilStyle = (eyePosition) => ({
-    position: 'absolute',
-    left: adjustedPupilPosition(eyePosition.x),
-    top: adjustedPupilPosition(eyePosition.y),
-    borderRadius: pupilWidth,
-    width: pupilWidth,
-    height: pupilWidth,
-    backgroundColor:'black'
-  });
+  
 
   // Define style for nose component
   // Set the nose angle according to face angle
@@ -176,17 +170,17 @@ const Mask = ({
   return (
     user &&
     <View style={{ position: 'absolute', left: containerX, top: containerY }}>
-      <Text style = {{...eyeStyle(translatedLeftEyePosition)}} >♥️</Text>
+      <Text style = {{...eyeStyle(translatedLeftEyePosition)}} >♠️</Text>
       {/* <View style = {{...pupilStyle(translatedLeftEyePosition)}} /> */}
-      <Text style = {{...eyeStyle(translatedRightEyePosition)}} >♥️</Text>
+      <Text style = {{...eyeStyle(translatedRightEyePosition)}} >♠️</Text>
       {/* Add nose component */}
       <Text style={{...noseStyle()}}>🖤</Text>
       <Text style={{...nameStyle()}}>{name}</Text>
       <Text style={{...killsStyle()}}>Kills: {kills}</Text>
-      <Text style={{...monsterStyle()}}>monster: {monsters}</Text>
-      <Text style={{...winsStyle()}}>wins: {monsters.length}</Text>
+      <Text style={{...monsterStyle()}}>monster: {monsters.length}</Text>
+      <Text style={{...winsStyle()}}>wins: {wins}</Text>
     </View>
   );
 };
 
-export default Mask
+export default MaskSpades
