@@ -19,6 +19,7 @@ export default function Graphic(props) {
   this.hello = props.moveS;
   this.attack_now = props.attacks
   this.enmeyAtt = props.enmeyAtt
+  this.hero = props.hero
   const font = new THREE.Font(require("three/examples/fonts/helvetiker_regular.typeface"))
   const scene = new THREE.Scene()
   const a4Images = [
@@ -100,12 +101,42 @@ export default function Graphic(props) {
     cube.rotation.x = 75
     //cube.translateOnAxis()
     
-    carobject = await ExpoTHREE.loadAsync([
-      require('../pets/spider.obj'),
-      require('../pets/spider.mtl'),
-    ],
-    null,
-    );
+
+    if(this.hero === "spiderMan"){
+      carobject = await ExpoTHREE.loadAsync([
+        require('../pets/spider.obj'),
+        require('../pets/spider.mtl'),
+      ],
+      null,
+      );
+    }
+    if(this.hero === "trump"){
+      carobject = await ExpoTHREE.loadAsync([
+        require('../pets/untitled-scene.obj'),
+        require('../pets/untitled-scene.mtl'),
+      ],
+      null,
+      );
+    }
+    if(this.hero === "sonic"){
+      carobject = await ExpoTHREE.loadAsync([
+        require('../pets/sonic-the-hedgehog.obj'),
+        require('../pets/sonic-the-hedgehog.mtl'),
+      ],
+      null,
+      );
+    }
+    if(this.hero === "Boby"){
+      carobject = await ExpoTHREE.loadAsync([
+        require('../pets/spongyboby.obj'),
+        require('../pets/spongyboby.mtl'),
+      ],
+      null,
+      );
+    }
+    
+    
+    
 
 
     

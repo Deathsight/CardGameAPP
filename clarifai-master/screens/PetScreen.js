@@ -21,14 +21,16 @@ export default function PetScreen() {
   const [enemyAttackTurn, setEnemyAttackTrun] = useState(false)
   const [enemyHealth, setEnemyHealth] = useState(200)
   const [yourHealth, setYourHealth] = useState(200)
+  const [allowed,setAllowed] = useState(false)
+  const [hero,setHero] = useState(null)
 
   useEffect(()=>{
     if(enemyHealth < 0 || yourHealth < 0 ){
-      if(enemyHealth > yourHealth){
-        return alert("the enemy killed you")// win
-      }
       if(enemyHealth < yourHealth){
-        return alert("you killed the enemy")// lose
+        return alert("You won")// win
+      }
+      if(enemyHealth > yourHealth){
+        return alert("You lost")// lose
       }
     }
     if(attack === true || enemyAttackTurn === true){
@@ -74,19 +76,40 @@ export default function PetScreen() {
     }, 2000);
   }
 
-
+  const selectCharacter = (character) =>{
+    setHero(character)
+    setAllowed(true)
+  }
+  const back = () =>{
+    setAllowed(false)
+    setEnemyHealth(200)
+    setYourHealth(200)
+  }
   return(
-    <View style={{ flex: 1}}>
-      <View style={{flex: 8}}>
-        <Graphic moveS={move} attacks={attack} enmeyAtt={enemyAttackTurn}/>
+    allowed ? 
+      <View style={{ flex: 1}}>
+        <View style={{flex: 8}}>
+          <Graphic moveS={move} attacks={attack} enmeyAtt={enemyAttackTurn} hero={hero}/>
+        </View>
+        <View style={{flex: 2}} >
+        <Text>your health: {yourHealth} / enemy health: {enemyHealth}</Text>
+        <Button title="Attack!" onPress={() =>attacks()}/>
+        <Button title="Back" onPress={() =>back()}/>
+        </View>
       </View>
-      <View style={{flex: 2}} >
-      <Text>your health: {yourHealth} / enemy health: {enemyHealth}</Text>
-      <Button title="Move Right" onPress={() =>setMove(move+0.2)}/>
-      <Button title="Attack!" onPress={() =>attacks()}/>
+      :
+      <View style={{ flex: 1}}>
+        <View>
+          <Text style={{fontSize: '30', fontStyle: 'bold'}}>Select your hero</Text>
+          <Button title="Spider Man" onPress={() =>selectCharacter("spiderMan")}/>
+          <Button title="Donald Trump" onPress={() =>selectCharacter("trump")}/>
+          <Button title="Sonic" onPress={() =>selectCharacter("sonic")}/>
+          <Button title="Spongy Boby" onPress={() =>selectCharacter("Boby")}/>
+        </View>
       </View>
+    
       
-    </View>
+    
     
   )
 }
