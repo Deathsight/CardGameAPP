@@ -27,6 +27,7 @@ export default function PetScreen() {
   useEffect(()=>{
     if(enemyHealth < 0 || yourHealth < 0 ){
       if(enemyHealth < yourHealth){
+        updateWins()
         return alert("You won")// win
       }
       if(enemyHealth > yourHealth){
@@ -84,6 +85,13 @@ export default function PetScreen() {
     setAllowed(false)
     setEnemyHealth(200)
     setYourHealth(200)
+  }
+  const updateWins = async () => {
+    const info = await db.collection('users').doc(firebase.auth().currentUser.uid).get()
+    let temp = info.data()
+    if(temp){
+      db.collection('users').doc(firebase.auth().currentUser.uid).update({wins:temp.wins +1})
+    }
   }
   return(
     allowed ? 

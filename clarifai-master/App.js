@@ -76,7 +76,7 @@ export default function App(props) {
 
     db.collection("Users")
       .doc(firebase.auth().currentUser.uid)
-      .set({ name: id, kills: 0, wins: 0, monsters: 0, avatar: "" });
+      .set({ name: id, wins: 0, monsters: [], avatar: "" });
 
     const response = await app.models.create("faces3", [{ id: id }]);
     //console.log("model response", response);

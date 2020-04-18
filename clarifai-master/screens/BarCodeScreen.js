@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button,Linking,Alert,TextInput } from 'react-native';
+import { Text, View, StyleSheet, Button,Linking,TextInput } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
 //firebase
@@ -33,7 +33,7 @@ export default function BarCodeScreen() {
       if(temp){
         collectMonster(temp)
       } else {
-        Alert.alert('Incorrect QR code')
+        alert('Incorrect QR code')
       }   
     }
     // const response = await fetch(`https://api.barcodelookup.com/v2/products?barcode=${data}&formatted=y&key=r7w70x27axuy3iveqikreebx0061ww`)
@@ -46,16 +46,17 @@ export default function BarCodeScreen() {
     let temp = null;
     const response = await db.collection("users").doc(firebase.auth().currentUser.uid).get()
     temp = response
-    if(response.monsters.includes(obj)){
-      Alert.alert(`
+    if(!response.monsters.includes(obj)){
+      alert(`
         Monster Was detected! i'ts being added to your collection!!!!
         Monster Found: ${obj.name}
       `);
+      console.log(temp.monsters.push(obj))
       db.collection("users").doc(firebase.auth().currentUser.uid).update({
         monsters:temp.monsters.push(obj)
       })
     } else {
-      Alert.alert('You Already claimed this monster')
+      alert('You Already claimed this monster')
     }
   }
 
