@@ -32,6 +32,17 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "packagerOpts": {
+      "assetExts": [
+        "dae",
+        "obj",
+        "mtl",
+        "jpg",
+        "json",
+        "glb",
+        "png"
+      ]
     }
   }
 }
