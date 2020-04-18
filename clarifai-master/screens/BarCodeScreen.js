@@ -26,7 +26,7 @@ export default function BarCodeScreen() {
 
     const supported = await Linking.canOpenURL(data);
     console.log(data)
-    if (supported) {
+    if (supported) { 
       await Linking.openURL(data);
     } else {
       let temp = fetchMonster(data)
@@ -46,7 +46,7 @@ export default function BarCodeScreen() {
     let temp = null;
     const response = await db.collection("users").doc(firebase.auth().currentUser.uid).get()
     temp = response
-    if(response.monsters.include(obj)){
+    if(response.monsters.includes(obj)){
       Alert.alert(`
         Monster Was detected! i'ts being added to your collection!!!!
         Monster Found: ${obj.name}
