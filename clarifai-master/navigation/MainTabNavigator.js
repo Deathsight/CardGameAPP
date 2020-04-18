@@ -12,6 +12,8 @@ import FaceFilterScreen from "../screens/FaceFilterScreen";
 import ArTesting from "../screens/ArTesting";
 import VoiceTesting from "../screens/VoiceTesting";
 import SpeechTest from "../screens/SpeechTest";
+import PetScreen from "../screens/PetScreen";
+
 
 
 
@@ -80,6 +82,26 @@ BarCodeStack.navigationOptions = {
 };
 
 BarCodeStack.path = "";
+/////////////////////////////////////////////////////////
+const PetStack = createStackNavigator(
+  {
+    PetScreen: PetScreen
+  },
+  config
+);
+
+PetStack.navigationOptions = {
+  tabBarLabel: "Pet",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
+    />
+  )
+};
+
+PetStack.path = "";
+
 /////////////////////////////////////////////////////////
 
 const VoiceTestingStack = createStackNavigator(
@@ -188,8 +210,10 @@ const tabNavigator = createBottomTabNavigator({
   // LinksStack,
   // BarCodeStack,
   // SettingsStack,
+  //PetStack,
   FaceFilterStack,
-  // ArTestingStack,
+
+  //ArTestingStack,
   // SpeechTestStack,
   // VoiceTestingStack
 });
