@@ -3,6 +3,13 @@ import {
   View, Text, TouchableOpacity, Button
 
 } from "react-native";
+//firebase
+import firebase from "firebase/app";
+import "firebase/auth";
+import db from "../db.js";
+
+
+
 import { Asset } from "expo-asset";
 import { AR } from "expo";
 // Let's alias ExpoTHREE.AR as ThreeAR so it doesn't collide with Expo.AR.
