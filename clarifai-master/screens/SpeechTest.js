@@ -10,10 +10,8 @@ import {
 } from "react-native";
 import Constants from "expo-constants";
 import * as Speech from "expo-speech";
-import { render } from "react-dom";
-//import Voice from "react-native-voice";
 
-export default class App extends React.Component {
+export default class SpeechTest extends React.Component {
   state = {
     myComment: "",
   };
