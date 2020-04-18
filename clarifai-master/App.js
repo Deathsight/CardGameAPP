@@ -40,7 +40,7 @@ export default function App(props) {
   const [uploadInProgress, setUploadInProgress] = useState(false);
   
   const [isLoadingComplete, setLoadingComplete] = useState(false);
-  const [allowedIn, setAllowedIn] = useState(true);
+  const [allowedIn, setAllowedIn] = useState(false);
   Auth.init(setAllowedIn);
   const [id,setId] = useState('');
 
@@ -79,7 +79,7 @@ const makeInput = async base64 => {
 const makeModel = async () => {
   console.log('this is id',id);
 
-  db.collection('Users').doc(firebase.auth().currentUser.uid).set({name:id,kills:0,wins:0,monsters:0});
+  db.collection('Users').doc(firebase.auth().currentUser.uid).set({name:id,kills:0,wins:0,monsters:0,avatar:""});
 
   const response = await app.models.create("faces2", [{ id: id }]);
   //console.log("model response", response);

@@ -106,11 +106,56 @@ const Stats = ({
   ) => angleRad * 180 / Math.PI
     
   const nameStyle = () => ({
-    fontSize: 100,
+    fontSize: 70,
     position: 'absolute',
-    left: noseBasePosition.x - noseWidth / 2 - containerX+20,
-    top: noseBasePosition.y - noseWidth / 2 - containerY+20,
+    left: noseBasePosition.x - noseWidth / 2 - containerX-150,
+    top: noseBasePosition.y - noseWidth / 2 - containerY-300,
     transform: [{ rotate: `${nameTransformAngle()}deg`}]
+  })
+
+  const winsTransformAngle = (
+    angleRad = Math.atan(
+      (rightEyePosition.y - leftEyePosition.y) /
+      (rightEyePosition.x - leftEyePosition.x)
+    )
+  ) => angleRad * 180 / Math.PI
+    
+  const winsStyle = () => ({
+    fontSize: 40,
+    position: 'absolute',
+    left: bottomMouthPosition.x - noseWidth / 2 - containerX,
+    top: bottomMouthPosition.y - noseWidth / 2 - containerY+100,
+    transform: [{ rotate: `${winsTransformAngle()}deg`}]
+  })
+
+  const killsTransformAngle = (
+    angleRad = Math.atan(
+      (rightEyePosition.y - leftEyePosition.y) /
+      (rightEyePosition.x - leftEyePosition.x)
+    )
+  ) => angleRad * 180 / Math.PI
+    
+  const killsStyle = () => ({
+    fontSize: 20,
+    position: 'absolute',
+    left: leftEarPosition.x - noseWidth / 2 - containerX,
+    top: leftEarPosition.y - noseWidth / 2 - containerY+50,
+    transform: [{ rotate: `${killsTransformAngle()}deg`}]
+  })
+
+  const monsterTransformAngle = (
+    angleRad = Math.atan(
+      (rightEyePosition.y - leftEyePosition.y) /
+      (rightEyePosition.x - leftEyePosition.x)
+    )
+  ) => angleRad * 180 / Math.PI
+    
+  const monsterStyle = () => ({
+    fontSize: 20,
+    position: 'absolute',
+    left: rightEarPosition.x - noseWidth / 2 - containerX,
+    top: rightEarPosition.y - noseWidth / 2 - containerY+50,
+    transform: [{ rotate: `${monsterTransformAngle()}deg`}]
   })
 
   // Define style for mouth component
@@ -140,7 +185,10 @@ const Stats = ({
       {/* Add nose component */}
       <Text style={{...mouthStyle()}}>🔥</Text>
       <Text style={{...noseStyle()}}>🖤</Text>
-  <Text style={{...nameStyle()}}>{name}</Text>
+      <Text style={{...nameStyle()}}>{name}</Text>
+      <Text style={{...killsStyle()}}>Kills: {kills}</Text>
+      <Text style={{...monsterStyle()}}>monster: {monsters}</Text>
+      <Text style={{...winsStyle()}}>wins: {monsters.length}</Text>
     </View>
   );
 };

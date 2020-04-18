@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import {
+  View, Text, TouchableOpacity, Button
+
+} from "react-native";
 import { Asset } from "expo-asset";
 import { AR } from "expo";
 // Let's alias ExpoTHREE.AR as ThreeAR so it doesn't collide with Expo.AR.
@@ -9,25 +13,10 @@ import * as ThreeAR from "expo-three-ar";
 // it also provides debug information with `isArCameraStateEnabled`
 import { View as GraphicsView } from "expo-graphics";
 import { StyleSheet } from "react-native";
-import * as Speech from 'expo-speech';
-import Constants from 'expo-constants';
-
-
-
-export default function ArTesting() {
-
+import { Camera } from "expo-camera";
+export default function Graphic(props) {
   const font = new THREE.Font(require("../node_modules/three/examples/fonts/helvetiker_regular.typeface.json"))
-  
-  // const { scene } = ss();
-  // const ss = async () => {
-  //   const {s} = await ExpoTHREE.loadDaeAsync({
-  //     asset: require("./scene.dae"),
-  //     onAssetRequested: modelAssets,
-  //     onProgress: () => {},
-  //   });
-  //   return s;
-  // }
-
+  const scene = new THREE.Scene()
   const a4Images = [
     {
       name: "Plane",
@@ -40,48 +29,45 @@ export default function ArTesting() {
       file: require("../assets/images/mountains.jpg"),
       height: 0.2,
       width: 0.287
-    },
-    {
-        name: "ID Card",
-        file: require("../assets/images/id.jpg"),
-        height: 0.0856 ,
-        width: 0.05398
-      }
+    }
   ];
 
   const [ready, setReady] = useState(false)
   //const [detectionImages, setDetectionImages] = useState({})
-
   useEffect(() => {
     THREE.suppressExpoWarnings(true);
-    //setup();
+    setup();
   }, []);
 
-  // const setup = async () => {
-  //   console.log(1)
-  //   // loop through, load each image onto device, assign uri to new property localUri
-  //   for (const image of a4Images) {
-  //     const asset = Asset.fromModule(image.file);
-  //     await asset.downloadAsync();
-  //     image.localUri = asset.localUri;
-  //   }
-  //   console.log(2);
+  useEffect(() =>{
+    console.log("joined")
+    //cube.updateMatrix(true)
+    //cube.position.setX(props.moveS)
+  },[props.moveS])
 
-  //   // loop through, create structure of all images to look for
-  //   this.detectionImages = {};
-  //   for (const image of a4Images) {
-  //     this.detectionImages[image.name] = {
-  //       uri: image.localUri,
-  //       name: image.name,
-  //       height: image.height,
-  //       width: image.width
-  //     }
-  //   }
+  const setup = async () => {
+    // console.log(1)
+    // // loop through, load each image onto device, assign uri to new property localUri
+    // for (const image of a4Images) {
+    //   const asset = Asset.fromModule(image.file);
+    //   await asset.downloadAsync();
+    //   image.localUri = asset.localUri;
+    // }
+    // console.log(2);
 
-  //   console.log(3, this.detectionImages);
-  //   setReady(true)
+    // // loop through, create structure of all images to look for
+    // this.detectionImages = {};
+    // for (const image of a4Images) {
+    //   this.detectionImages[image.name] = {
+    //     uri: image.localUri,
+    //     name: image.name,
+    //     height: image.height,
+    //     width: image.width
+    //   }
+    // }
+    setReady(true)
 
-  // };
+  };
 
   // When our context is built we can start coding 3D things.
   const onContextCreate = async ({ gl, scale: pixelRatio, width, height }) => {
@@ -97,71 +83,79 @@ export default function ArTesting() {
       height
     });
 
+    const geometry = new THREE.BoxGeometry(0.1, 0.1,0.1)
+    const material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+    cube = new THREE.Mesh( geometry, material );
+    scene.add(cube);
+    cube.position.z = -3
+
+    zg = props.moveS;
+
     // This will create a camera texture and use it as the background for our scene
     scene.background = new ThreeAR.BackgroundTexture(this.renderer);
     // Now we make a camera that matches the device orientation.
     // Ex: When we look down this camera will rotate to look down too!
     this.camera = new ThreeAR.Camera(width, height, 0.01, 1000);
 
-    scene.add(new THREE.AmbientLight(0xffffff));
+    scene.add(new THREE.AmbientLight(0x404040));
+
+    const light = new THREE.DirectionalLight(0xffffff, 0.5);
+    light.position.set(3, 3, 3);
+    scene.add(light);
 
     // setting the image(s) to look for
     // const result = await AR.setDetectionImagesAsync(this.detectionImages);
     // console.log(4, this.detectionImages);
 
     // setting up a listener once image is recognized
-    // AR.onAnchorsDidUpdate(
-    //   ({ anchors, eventType }) => {
-    //     for (let anchor of anchors) {
-    //       if (anchor.type === AR.AnchorTypes.Image) {
-    //         const { identifier, image, transform } = anchor;
-    //         console.log("image", image.name);
-    //         console.log("transform", transform);
-    //         console.log("eventType", eventType);
-    //         // first event will be Add, subsequent will be updates
-    //         if (eventType === AR.AnchorEventTypes.Add) {
-    //           // Add some node
-    //           // Place the box 0.4 meters in front of us.
-    //           const label = createLabel(image.name);
-    //           speak(image.name);
-    //           label.position.x = transform[12];
-    //           label.position.y = transform[13];
-    //           label.position.z = transform[14];
-    //           // Add the cube to the scene
-    //           scene.add(label);
-    //         } else if (eventType === AR.AnchorEventTypes.Remove) {
-    //           // Remove that node
-    //         } else if (eventType === AR.AnchorEventTypes.Update) {
-    //             speak(image.name);
-    //           // Update whatever node
-    //         }
-    //       }
-    //     }
-    //   });
+    AR.onAnchorsDidUpdate(
+      ({ anchors, eventType }) => {
+        for (let anchor of anchors) {
+          if (anchor.type === AR.AnchorTypes.Image) {
+            const { identifier, image, transform } = anchor;
+            console.log("image", image.name);
+            console.log("transform", transform);
+            console.log("eventType", eventType);
+            // first event will be Add, subsequent will be updates
+            if (eventType === AR.AnchorEventTypes.Add) {
+              // Add some node
+              // Place the box 0.4 meters in front of us.
+              const label = createLabel(image.name);
+              label.position.x = transform[12];
+              label.position.y = transform[13];
+              label.position.z = transform[14];
+              // Add the cube to the scene
+              scene.add(label);
+            } else if (eventType === AR.AnchorEventTypes.Remove) {
+              // Remove that node
+            } else if (eventType === AR.AnchorEventTypes.Update) {
+              // Update whatever node
+            }
+          }
+        }
+      });
   };
 
-  const speak = (text) => {
-    Speech.speak(text);
-  }
+    
+    
+    
+  const createLabel = text => {
+    const geometry = new THREE.TextGeometry(text, {
+      font,
+      size: 0.1,
+      height: 0.01
+    });
 
+    // Simple color material
+    const material = new THREE.MeshBasicMaterial({
+      color: 0xffff00
+    });
 
-  // const createLabel = text => {
-  //   const geometry = new THREE.TextGeometry(text, {
-  //     font,
-  //     size: 0.1,
-  //     height: 0.01
-  //   });
-
-  //   // Simple color material
-  //   const material = new THREE.MeshBasicMaterial({
-  //     color: 0xffff00
-  //   });
-
-  //   // Combine our geometry and material
-  //   const shape = new THREE.Mesh(geometry, material);
-  //   shape.scale.x = shape.scale.y = shape.scale.z = 1
-  //   return shape
-  // };
+    // Combine our geometry and material
+    const shape = new THREE.Mesh(geometry, material);
+    shape.scale.x = shape.scale.y = shape.scale.z = 1
+    return shape
+  };
 
   // When the phone rotates, or the view changes size, this method will be called.
   const onResize = ({ x, y, scale, width, height }) => {
@@ -174,17 +168,24 @@ export default function ArTesting() {
     this.renderer.setPixelRatio(scale);
     this.renderer.setSize(width, height);
   };
-
   // Called every frame.
-  const onRender = () => {
+
+  this.g = props.moveS;
+
+  const onRender = (delta) => {
+
     if (this.camera) {
       // This will make the points get more rawDataPoints from Expo.AR
       // this.points.update();
       // Finally render the scene with the AR Camera
+      this.cube.rotation.x += 3.5 * delta;
+      this.cube.rotation.y += 2 * delta;
+      this.cube.position.x += this.g * delta;
+      // scene.add(this.cube)
       this.renderer.render(scene, this.camera);
     }
+    
   };
-
   // You need to add the `isArEnabled` & `arTrackingConfiguration` props.
   // `isArRunningStateEnabled` Will show us the play/pause button in the corner.
   // `isArCameraStateEnabled` Will render the camera tracking information on the screen.
@@ -197,6 +198,7 @@ export default function ArTesting() {
         style={{ flex: 1 }}
         onContextCreate={onContextCreate}
         onRender={onRender}
+        moveS={props.moveS}
         onResize={onResize}
         isArEnabled
         isArRunningStateEnabled
@@ -210,8 +212,8 @@ export default function ArTesting() {
   }
 }
 
-ArTesting.navigationOptions = {
-  title: "Links"
+Graphic.navigationOptions = {
+  title: "Pet"
 };
 
 const styles = StyleSheet.create({
