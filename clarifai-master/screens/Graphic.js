@@ -94,9 +94,10 @@ export default function Graphic(props) {
     ExpoTHREE.utils.scaleLongestSideToSize(cube, 0.2);
     scene.add( cube );
     cube.position.z = 0.2
-    cube.position.y = 0
+    cube.position.y = 0.5
     cube.position.x = -0.5
     cube.rotation.y = 75
+    cube.rotation.x = 75
     //cube.translateOnAxis()
     
     carobject = await ExpoTHREE.loadAsync([
@@ -112,7 +113,7 @@ export default function Graphic(props) {
     ExpoTHREE.utils.scaleLongestSideToSize(carobject, 0.1);
     carobject.position.z = 0.2
     carobject.position.x = 0.5
-    carobject.position.y = 0
+    carobject.position.y = 0.5
     
     scene.add(carobject);
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 // Import Text component
 import { Text, View } from 'react-native';
@@ -8,7 +8,6 @@ import "firebase/auth";
 import db from "../../db.js";
 
 let user = null;
-
 const getUser = async () =>{
   let u = await db.collection('Users').doc(firebase.auth().currentUser.uid).get();
   console.log(u.data());
