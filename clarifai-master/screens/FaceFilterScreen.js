@@ -31,6 +31,7 @@ export default function FaceFilterScreen() {
   useEffect(() => {
     getUser();
     askPermission();
+    
   }, []);
 
   useEffect(() => {
@@ -47,11 +48,21 @@ export default function FaceFilterScreen() {
   };
 
   const getUser = async () => {
-    let u = await db
-      .collection("Users")
-      .doc(firebase.auth().currentUser.uid)
-      .get();
-    setUser(u.data());
+    
+    db.collection('Users').onSnapshot(querySnapshot =>{
+      let user = []
+      querySnapshot.forEach(doc =>{
+        if(doc.id === firebase.auth().currentUser.uid){
+          user.push(doc.data())
+        }
+      })
+      setUser(user[0])
+    })
+    // let u = await db
+    //   .collection("Users")
+    //   .doc(firebase.auth().currentUser.uid)
+    //   .get();
+    // setUser(u.data());
   };
 
   const askPermission = async () => {

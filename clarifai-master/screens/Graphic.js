@@ -19,7 +19,7 @@ export default function Graphic(props) {
   this.hello = props.moveS;
   this.attack_now = props.attacks
   this.enmeyAtt = props.enmeyAtt
-  const font = new THREE.Font(require("../node_modules/three/examples/fonts/helvetiker_regular.typeface.json"))
+  const font = new THREE.Font(require("three/examples/fonts/helvetiker_regular.typeface"))
   const scene = new THREE.Scene()
   const a4Images = [
     {
@@ -31,12 +31,6 @@ export default function Graphic(props) {
     {
       name: "Mountains",
       file: require("../assets/images/mountains.jpg"),
-      height: 0.2,
-      width: 0.287
-    },
-    {
-      name: "baky",
-      file: require("../assets/images/baky.png"),
       height: 0.2,
       width: 0.287
     }
@@ -90,30 +84,42 @@ export default function Graphic(props) {
       height
     });
 
-    const geometry = new THREE.BoxGeometry(0.1,0.1,0.1)
-    const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    cube = new THREE.Mesh( geometry, material );
-    scene.add(cube );
-    cube.position.z = -0.5
-    cube.position.y = -0.5
+    cube  = await ExpoTHREE.loadAsync([
+      require('../pets/T-Rex Model.obj'),
+      require('../pets/T-Rex Model.mtl'),
+    ],
+    null,
+    );
+    
+    ExpoTHREE.utils.scaleLongestSideToSize(cube, 0.2);
+    scene.add( cube );
+    cube.position.z = 0.2
+    cube.position.y = 0.5
     cube.position.x = -0.5
+    cube.rotation.y = 75
+    cube.rotation.x = 75
     //cube.translateOnAxis()
     
     carobject = await ExpoTHREE.loadAsync([
-      require('./untitled-scene.obj'),
-      require('./untitled-scene.mtl'),
+      require('../pets/spider.obj'),
+      require('../pets/spider.mtl'),
     ],
     null,
     );
 
+
     
     
     ExpoTHREE.utils.scaleLongestSideToSize(carobject, 0.1);
-    carobject.position.z = -0.5
+    carobject.position.z = 0.2
     carobject.position.x = 0.5
-    carobject.position.y = 0
+    carobject.position.y = 0.5
     
     scene.add(carobject);
+
+    const light = new THREE.DirectionalLight(0xffffff, 0.5);
+    light.position.set(3, 3, 3);
+    scene.add(light);
     
     
 

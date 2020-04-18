@@ -12,7 +12,7 @@ import FaceFilterScreen from "../screens/FaceFilterScreen";
 //import ArTesting from "../screens/ArTesting";
 import VoiceTesting from "../screens/VoiceTesting";
 import SpeechTest from "../screens/SpeechTest";
-//import PetScreen from "../screens/PetScreen";
+import PetScreen from "../screens/PetScreen";
 
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -80,14 +80,14 @@ BarCodeStack.navigationOptions = {
 
 BarCodeStack.path = "";
 /////////////////////////////////////////////////////////
-/*const PetStack = createStackNavigator(
+const PetStack = createStackNavigator(
   {
     PetScreen: PetScreen,
   },
   config
-);*/
+);
 
-/*PetStack.navigationOptions = {
+PetStack.navigationOptions = {
   tabBarLabel: "Pet",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -97,7 +97,7 @@ BarCodeStack.path = "";
   ),
 };
 
-PetStack.path = "";*/
+PetStack.path = "";
 
 /////////////////////////////////////////////////////////
 
@@ -207,7 +207,7 @@ const tabNavigator = createBottomTabNavigator({
   // LinksStack,
   BarCodeStack,
   // SettingsStack,
-  //PetStack,
+  PetStack,
   FaceFilterStack,
 
   //ArTestingStack,
