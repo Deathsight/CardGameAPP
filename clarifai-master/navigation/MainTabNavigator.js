@@ -8,6 +8,7 @@ import HomeScreen from "../screens/HomeScreen";
 import LinksScreen from "../screens/LinksScreen";
 import BarCodeScreen from "../screens/BarCodeScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import PetScreen from '../screens/PetScreen'
 
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -56,6 +57,25 @@ LinksStack.navigationOptions = {
 
 LinksStack.path = "";
 
+const PetStack = createStackNavigator(
+  {
+    Pet: PetScreen
+  },
+  config
+);
+
+PetStack.navigationOptions = {
+  tabBarLabel: "Pet",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
+    />
+  )
+};
+
+PetStack.path = "";
+
 const BarCodeStack = createStackNavigator(
   {
     BarCode: BarCodeScreen
@@ -98,7 +118,8 @@ const tabNavigator = createBottomTabNavigator({
   HomeStack,
   LinksStack,
   BarCodeStack,
-  SettingsStack
+  SettingsStack,
+  PetStack
 });
 
 tabNavigator.path = "";
